@@ -1,166 +1,176 @@
-# 🚀 Nova — The Modern Agile Operating System
+# Nova
 
-[![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-4.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Render](https://img.shields.io/badge/Deploy-Render_Ready-46E3B7?logo=render&logoColor=white)](https://render.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-**Nova** is a modern, full-stack agile project management operating system designed for engineering teams, product managers, and fast-moving startups. Built with a focus on speed, clarity, and visual elegance, Nova pairs an interactive Kanban engine with real-time sprint analytics, role-based collaboration, and an automated deployment pipeline.
+Nova is a full-stack agile project management platform designed for engineering teams, product managers, and modern software organizations. It provides an intuitive interface for sprint planning, interactive task execution, team workload distribution, and velocity tracking.
 
 ---
 
-## ✨ Key Highlights
+## Architectural Overview
 
-- **🎯 Dedicated Task Board with Instant Project Switching:** Access all tasks across any project instantly from `/board` without deep nesting or multi-step navigation.
-- **⚡ 1-Click Task Access:** Direct "Task Board" action buttons directly on every project card.
-- **📊 High-Contrast Velocity & Burndown Charts:** Custom-themed Recharts engine with crisp, high-visibility tooltips engineered specifically for dark and light modes.
-- **🎨 Interactive Landing Page & Running Mockups:** Live interactive stage simulation showcasing the Kanban board, velocity metrics, team activity, and project portfolio.
-- **🛡️ Enterprise-Grade Authentication & RBAC:** Secure JWT authentication with role-based permissions (`Admin`, `Member`, `Viewer`).
-- **🌓 Adaptive Theme Engine:** Seamless switching between Dark Mode and Light Mode with zero layout shift and local storage persistence.
-- **💾 Resilient Database Architecture:** Seamlessly connects to MongoDB Atlas or automatically falls back to an ultra-fast in-memory MongoDB instance with persistent binary caching for zero-config local development.
-- **🌐 Production-Ready SPA Serving:** Express backend dynamically serves the compiled Vite frontend in production mode.
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **Framework:** [React 18](https://react.dev/) + [Vite 5](https://vitejs.dev/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom dark/light theme variables
-- **State Management:** [Zustand](https://github.com/pmndrs/zustand)
-- **Data Visualization:** [Recharts](https://recharts.org/) with custom high-contrast tooltip overlays
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **Routing:** [React Router v6](https://reactrouter.com/)
-- **HTTP Client:** [Axios](https://axios-http.com/) with token interceptors
-
-### Backend
-- **Runtime:** [Node.js](https://nodejs.org/) (v18+)
-- **Framework:** [Express 4](https://expressjs.com/)
-- **Database & ODM:** [MongoDB](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/)
-- **In-Memory Fallback:** `mongodb-memory-server` with drive-cached binaries
-- **Security:** `bcryptjs` password hashing, `jsonwebtoken` (JWT), `cors`, `dotenv`
-
----
-
-## 📁 Project Structure
+Nova is structured as a decoupled monorepo comprising a modern React single-page application (SPA) and a scalable Node.js/Express REST API.
 
 ```
 Nova/
-├── backend/                  # Express REST API & Database engine
-│   ├── config/               # Database connection & memory server fallback
-│   ├── controllers/          # Business logic (auth, projects, tasks, teams)
-│   ├── middleware/           # Auth verification & RBAC authorization
-│   ├── models/               # Mongoose schemas (User, Project, Task, Team)
-│   ├── routes/               # API endpoint definitions (/api/auth, /api/projects, etc.)
-│   ├── services/             # Database seeding & initial state initialization
-│   ├── app.js                # Express app setup & production SPA static serving
-│   ├── server.js             # Server bootstrap & port listener
+├── backend/
+│   ├── config/             # Database connection handling and in-memory fallback
+│   ├── controllers/        # Business logic for authentication, projects, tasks, and teams
+│   ├── middleware/         # JWT verification, RBAC guards, and request validators
+│   ├── models/             # Mongoose schemas (User, Project, Task, Team)
+│   ├── routes/             # RESTful API routing endpoints
+│   ├── services/           # Data seeding and initialization utilities
+│   ├── app.js              # Express application assembly and static asset serving
+│   ├── server.js           # Process initialization and socket listening
 │   └── package.json
 │
-├── frontend/                 # React 18 + Vite SPA client
-│   ├── public/               # Static assets & favicon
+├── frontend/
+│   ├── public/             # Static public assets
 │   ├── src/
-│   │   ├── api/              # Axios instance and API service methods
+│   │   ├── api/            # HTTP client configuration and API abstraction layer
 │   │   ├── components/
-│   │   │   ├── common/       # Button, Input, Modal, Badge, ThemeToggle
-│   │   │   ├── landing/      # LandingNavbar, RunningMockups
-│   │   │   ├── layout/       # Sidebar, Header, AppLayout
-│   │   │   ├── projects/     # ProjectCard, ProjectModal
-│   │   │   ├── tasks/        # TaskBoard, TaskCard, TaskList, Task modals
-│   │   │   └── team/         # TeamList, InviteMemberModal
-│   │   ├── pages/            # LandingPage, DashboardPage, TaskBoardPage, etc.
-│   │   ├── store/            # Zustand stores (authStore, themeStore)
-│   │   ├── App.jsx           # Client router and route guards
-│   │   ├── index.css         # Tailwind directives and design tokens
-│   │   └── main.jsx          # React DOM entry point
+│   │   │   ├── common/     # Reusable design primitives (Button, Modal, Input, Badge)
+│   │   │   ├── landing/    # Marketing interface and interactive product simulators
+│   │   │   ├── layout/     # Navigation bars, sidebar hierarchy, and layout wrappers
+│   │   │   ├── projects/   # Project management cards, creation dialogs, and metrics
+│   │   │   ├── tasks/      # Kanban board, task cards, filters, and detail drawers
+│   │   │   └── team/       # Team roster management and member invitation dialogs
+│   │   ├── pages/          # Top-level view controllers and routing targets
+│   │   ├── store/          # Client-side state containers (Zustand)
+│   │   ├── App.jsx         # Application routing tree and authentication guards
+│   │   ├── index.css       # Design tokens and Tailwind CSS directives
+│   │   └── main.jsx        # Application bootstrap entry point
 │   ├── index.html
 │   ├── tailwind.config.js
 │   ├── vite.config.js
 │   └── package.json
 │
-├── render.yaml               # 1-Click Render blueprint configuration
-├── package.json              # Monorepo root scripts
-└── README.md                 # Project documentation
+├── render.yaml             # Infrastructure-as-code blueprint for cloud deployment
+├── package.json            # Root coordination scripts
+└── README.md
 ```
 
 ---
 
-## 🚦 Getting Started
+## Key Capabilities
+
+### Agile Task Management
+- **Interactive Kanban Boards:** Real-time drag-and-drop state transitions across lifecycle columns (Backlog, Todo, In Progress, Done).
+- **Dedicated Task Workspace:** Direct global access to all tasks via `/board`, featuring instantaneous project context switching.
+- **Direct Navigation:** One-click task access directly from portfolio project cards.
+
+### Engineering Analytics & Reporting
+- **Velocity & Burndown Tracking:** Dynamic charts powered by Recharts, offering clear visibility into sprint progress, completion ratios, and team capacity.
+- **High-Contrast Data Display:** Calibrated visual indicators ensuring readability across both dark and light display modes.
+
+### Security and Access Governance
+- **Role-Based Access Control (RBAC):** Granular permissions partitioning capabilities across `Admin`, `Member`, and `Viewer` roles.
+- **Cryptographic Security:** Passwords hashed with `bcryptjs` and session continuity managed via JSON Web Tokens (JWT).
+
+### Infrastructure Resilience
+- **Database Failover Architecture:** Standard connection to MongoDB Atlas with an automated fallback to an embedded in-memory MongoDB engine (`mongodb-memory-server`) for zero-configuration local evaluation.
+- **Drive Cache Optimization:** Engine binaries are isolated to designated persistent storage paths, mitigating environment constraint issues.
+
+---
+
+## Technology Stack
+
+| Domain | Technologies |
+| :--- | :--- |
+| **Frontend Framework** | React 18, Vite 5 |
+| **State Architecture** | Zustand |
+| **Styling & Design Tokens** | Tailwind CSS, Lucide Icons |
+| **Visualization** | Recharts |
+| **Routing** | React Router v6 |
+| **Backend Runtime** | Node.js (>=18.x), Express 4 |
+| **Persistence Layer** | MongoDB, Mongoose 8 |
+| **Authentication** | JSON Web Tokens (jsonwebtoken), bcryptjs |
+| **Deployment Target** | Render (Web Service Blueprint) |
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- **Node.js** >= 18.0.0
-- **npm** >= 9.0.0
+- Node.js (version 18.0.0 or higher)
+- npm (version 9.0.0 or higher)
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/kaifansariw/Nova.git
-cd Nova
-```
+### Installation
 
-### 2. Install Dependencies
-Install dependencies across both root, backend, and frontend with a single command:
-```bash
-npm run install-all
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kaifansariw/Nova.git
+   cd Nova
+   ```
 
-### 3. Environment Configuration
-The backend comes pre-configured with a `.env` template. If no MongoDB Atlas URI is supplied or the remote cluster is unreachable, Nova automatically boots an in-memory database with realistic seed data:
+2. Install all dependencies across the workspace:
+   ```bash
+   npm run install-all
+   ```
+
+### Configuration
+
+Create a `.env` file within the `backend/` directory or adjust existing values:
 
 ```env
-# backend/.env
 PORT=5000
 NODE_ENV=development
-JWT_SECRET=your_super_secret_jwt_key
-# MONGO_URI=mongodb+srv://... (Optional: falls back to in-memory if omitted)
+JWT_SECRET=your_jwt_signing_key_here
+# Optional: Remote MongoDB URI (falls back to in-memory if unreachable or unspecified)
+# MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/nova?retryWrites=true&w=majority
 ```
 
-### 4. Start Development Servers
-Run backend and frontend simultaneously:
+### Running Locally
+
+To launch both the backend API server and the frontend development environment concurrently:
+
 ```bash
 npm run dev
 ```
 
-- **Frontend:** http://localhost:5173
-- **Backend API:** http://localhost:5000
+- **Frontend Client:** `http://localhost:5173`
+- **Backend API:** `http://localhost:5000`
 
 ---
 
-## 🔑 Demo Credentials
+## Default Credentials
 
-When running with default seed data, you can log in immediately:
+The platform seeds test accounts on initial execution when using default test storage:
 
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Admin** | `demo@nova.team` | `password123` |
-| **Member** | `alex@nova.team` | `password123` |
+| Account Type | Email | Password | Role |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `demo@nova.team` | `password123` | Admin |
+| **Team Member** | `alex@nova.team` | `password123` | Member |
 
-You can also create a new account directly via the **Sign Up** page.
+New accounts can also be registered directly through the authentication interface.
 
 ---
 
-## 🚀 Deployment (Render)
+## Production Build and Deployment
 
-Nova includes a `render.yaml` blueprint for seamless deployment to [Render](https://render.com):
+### Building Locally
 
-1. Connect your GitHub repository to Render.
-2. Create a new **Web Service**.
-3. Set the following build and start commands:
+To generate production-ready static assets:
+
+```bash
+npm run build
+```
+
+This compiles the client application into `frontend/dist/`, which is automatically served by the Express backend when running with `NODE_ENV=production`.
+
+### Deploying to Render
+
+This repository includes a `render.yaml` specification for immediate deployment:
+
+1. Link your repository in the Render Dashboard.
+2. Select **Blueprint** deployment or configure a **Web Service** with:
    - **Build Command:** `npm install --include=dev && npm run build`
    - **Start Command:** `npm start`
-4. Set environment variables:
-   - `NODE_ENV=production`
-   - `PORT=5000`
-   - `JWT_SECRET=your_secure_secret_key`
-   - `MONGO_URI=your_mongodb_connection_string`
-
-The Express server automatically compiles the Vite bundle and serves static assets from `frontend/dist/`.
+3. Configure the following environment variables:
+   - `NODE_ENV`: `production`
+   - `PORT`: `5000`
+   - `JWT_SECRET`: A secure random cryptographic string
+   - `MONGO_URI`: Your production MongoDB Atlas connection string
 
 ---
 
-## 📜 License
+## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License. Details are available in the [LICENSE](LICENSE) file.
