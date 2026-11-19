@@ -42,9 +42,9 @@ export const LoginPage = () => {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md z-10">
         <div className="flex justify-center">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-glow-primary mb-3">
+          <Link to="/" title="Back to Home" className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-glow-primary mb-3 hover:scale-105 transition-transform">
             <Layers className="w-7 h-7" />
-          </div>
+          </Link>
         </div>
         <h2 className="text-center text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Sign in to <span className="text-blue-500">Nova-Team</span>

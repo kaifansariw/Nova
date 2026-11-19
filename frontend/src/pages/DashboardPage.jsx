@@ -37,6 +37,50 @@ const PRIORITY_COLORS = {
   Critical: '#EF4444'
 };
 
+// Custom Tooltip for Pie Chart ensuring bright, visible text in all themes
+const CustomPieTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0];
+    const color = data.payload?.color || data.color || '#3B82F6';
+    return (
+      <div className="bg-[#0F172A] text-white p-3 rounded-xl border border-slate-700 shadow-2xl backdrop-blur-md">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} />
+          <span className="text-xs font-semibold text-slate-200">{data.name}</span>
+        </div>
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-lg font-bold text-white tracking-tight">{data.value}</span>
+          <span className="text-xs font-medium text-slate-400">tasks</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
+// Custom Tooltip for Bar Chart ensuring clear high-contrast text
+const CustomBarTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-[#0F172A] text-white p-3 rounded-xl border border-slate-700 shadow-2xl backdrop-blur-md text-xs">
+        <p className="font-semibold text-slate-200 mb-2 border-b border-slate-800 pb-1">{label}</p>
+        <div className="space-y-1.5">
+          {payload.map((entry, index) => (
+            <div key={`item-${index}`} className="flex items-center justify-between gap-4">
+              <span className="flex items-center gap-1.5 text-slate-300">
+                <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: entry.fill }} />
+                <span>{entry.name}:</span>
+              </span>
+              <span className="font-bold text-white">{entry.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 export const DashboardPage = () => {
   const { onOpenNewProject } = useOutletContext() || {};
   const { user } = useAuthStore();
@@ -191,13 +235,16 @@ export const DashboardPage = () => {
                   ))}
                 </Pie>
                 <Tooltip 
+                  content={<CustomPieTooltip />}
                   contentStyle={{ 
-                    backgroundColor: '#1E293B', 
+                    backgroundColor: '#0F172A', 
                     border: '1px solid #334155', 
-                    borderRadius: '8px', 
+                    borderRadius: '12px', 
                     fontSize: '12px',
-                    color: '#F8FAFC' 
-                  }} 
+                    color: '#FFFFFF' 
+                  }}
+                  itemStyle={{ color: '#FFFFFF', fontWeight: 600 }}
+                  labelStyle={{ color: '#FFFFFF' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -229,13 +276,16 @@ export const DashboardPage = () => {
                 <XAxis dataKey="name" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                 <Tooltip 
+                  content={<CustomBarTooltip />}
                   contentStyle={{ 
-                    backgroundColor: '#1E293B', 
+                    backgroundColor: '#0F172A', 
                     border: '1px solid #334155', 
-                    borderRadius: '8px', 
+                    borderRadius: '12px', 
                     fontSize: '12px',
-                    color: '#F8FAFC' 
-                  }} 
+                    color: '#FFFFFF' 
+                  }}
+                  itemStyle={{ color: '#FFFFFF', fontWeight: 600 }}
+                  labelStyle={{ color: '#FFFFFF' }}
                 />
                 <Bar dataKey="pending" name="Pending Tasks" fill="#3B82F6" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="completed" name="Done" fill="#10B981" radius={[4, 4, 0, 0]} />

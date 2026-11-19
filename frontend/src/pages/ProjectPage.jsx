@@ -176,37 +176,63 @@ export const ProjectPage = () => {
       </div>
 
       {/* Task Breakdown Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div 
-          onClick={() => navigate(`/projects/${currentProject._id}/board`)}
-          className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-colors cursor-pointer shadow-sm"
-        >
-          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">To Do</span>
-          <span className="text-2xl font-bold text-slate-900 dark:text-white">{stats.todo}</span>
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Task Breakdown
+          </h2>
+          <button
+            onClick={() => navigate(`/projects/${currentProject._id}/board`)}
+            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <span>View Full Task Board</span>
+            <Kanban className="w-3.5 h-3.5" />
+          </button>
         </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div 
+            onClick={() => navigate(`/projects/${currentProject._id}/board`)}
+            className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all hover:scale-[1.02] cursor-pointer shadow-sm group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">To Do</span>
+              <span className="text-[10px] text-slate-400 group-hover:text-blue-500 transition-colors">Board →</span>
+            </div>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">{stats.todo}</span>
+          </div>
 
-        <div 
-          onClick={() => navigate(`/projects/${currentProject._id}/board`)}
-          className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer shadow-sm"
-        >
-          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider block mb-1">In Progress</span>
-          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.inProgress}</span>
-        </div>
+          <div 
+            onClick={() => navigate(`/projects/${currentProject._id}/board`)}
+            className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-all hover:scale-[1.02] cursor-pointer shadow-sm group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider block mb-1">In Progress</span>
+              <span className="text-[10px] text-blue-400">Board →</span>
+            </div>
+            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.inProgress}</span>
+          </div>
 
-        <div 
-          onClick={() => navigate(`/projects/${currentProject._id}/board`)}
-          className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-colors cursor-pointer shadow-sm"
-        >
-          <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider block mb-1">In Review</span>
-          <span className="text-2xl font-bold text-amber-600 dark:text-amber-400">{stats.review}</span>
-        </div>
+          <div 
+            onClick={() => navigate(`/projects/${currentProject._id}/board`)}
+            className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-amber-500 transition-all hover:scale-[1.02] cursor-pointer shadow-sm group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider block mb-1">In Review</span>
+              <span className="text-[10px] text-amber-400">Board →</span>
+            </div>
+            <span className="text-2xl font-bold text-amber-600 dark:text-amber-400">{stats.review}</span>
+          </div>
 
-        <div 
-          onClick={() => navigate(`/projects/${currentProject._id}/board`)}
-          className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-colors cursor-pointer shadow-sm"
-        >
-          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">Done</span>
-          <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.completed}</span>
+          <div 
+            onClick={() => navigate(`/projects/${currentProject._id}/board`)}
+            className="p-4 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all hover:scale-[1.02] cursor-pointer shadow-sm group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">Done</span>
+              <span className="text-[10px] text-emerald-400">Board →</span>
+            </div>
+            <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.completed}</span>
+          </div>
         </div>
       </div>
 
