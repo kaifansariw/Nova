@@ -11,6 +11,7 @@ import { ProjectPage } from './pages/ProjectPage';
 import { TaskBoardPage } from './pages/TaskBoardPage';
 import { TeamPage } from './pages/TeamPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LandingPage } from './pages/LandingPage';
 
 // Protected Route Guard
 const ProtectedRoute = ({ children }) => {
@@ -37,7 +38,7 @@ const PublicRoute = ({ children }) => {
 
 export const App = () => {
   const { initTheme } = useThemeStore();
-  const { checkAuth } = useAuthStore();
+  const { checkAuth, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     initTheme();
@@ -46,6 +47,13 @@ export const App = () => {
 
   return (
     <Routes>
+      {/* Public Marketing Landing Page */}
+      <Route
+        path="/"
+        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />}
+      />
+      <Route path="/landing" element={<LandingPage />} />
+
       {/* Public Authentication Routes */}
       <Route
         path="/login"
@@ -66,25 +74,24 @@ export const App = () => {
 
       {/* Protected Application Routes */}
       <Route
-        path="/"
         element={
           <ProtectedRoute>
             <AppLayout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="projects" element={<ProjectListPage />} />
-        <Route path="projects/:id" element={<ProjectPage />} />
-        <Route path="projects/:id/board" element={<TaskBoardPage />} />
-        <Route path="projects/:id/team" element={<TeamPage />} />
-        <Route path="team" element={<TeamPage />} />
-        <Route path="settings" element={<SettingsPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/projects" element={<ProjectListPage />} />
+        <Route path="/projects/:id" element={<ProjectPage />} />
+        <Route path="/projects/:id/board" element={<TaskBoardPage />} />
+        <Route path="/board" element={<TaskBoardPage />} />
+        <Route path="/projects/:id/team" element={<TeamPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
       {/* Fallback */}
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };
