@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, CheckCircle2, Users, ArrowRight } from 'lucide-react';
+import { Calendar, CheckCircle2, Users, ArrowRight, Kanban } from 'lucide-react';
 import { StatusBadge } from '../common/Badge';
 import { format } from 'date-fns';
 
@@ -58,9 +58,9 @@ export const ProjectCard = ({ project }) => {
         </div>
 
         {/* Footer: Deadlines, Tasks count, Members */}
-        <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 font-medium">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
               {stats.completed}/{stats.total} tasks
             </span>
@@ -101,6 +101,34 @@ export const ProjectCard = ({ project }) => {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Direct Action Buttons - 1-Click access to Task Board or Details */}
+        <div className="pt-2 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/projects/${project._id}/board`);
+            }}
+            className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-semibold
+              bg-blue-600 hover:bg-blue-500 text-white shadow-sm transition-all cursor-pointer"
+          >
+            <Kanban className="w-3.5 h-3.5" />
+            <span>Task Board</span>
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/projects/${project._id}`);
+            }}
+            className="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium
+              bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+          >
+            <span>Overview</span>
+            <ArrowRight className="w-3 h-3" />
+          </button>
         </div>
       </div>
     </div>
