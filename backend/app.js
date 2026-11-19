@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 
 import authRoutes from './routes/auth.routes.js';
 import projectRoutes from './routes/project.routes.js';
@@ -30,13 +31,21 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Health check endpoint
+// Health check and keep-alive endpoints
 app.get('/api/health', (req, res) => {
-  res.json({
+  const dbState = ['disconnected', 'connected', 'connecting', 'disconnecting'][mongoose.connection.readyState] || 'unknown';
+  res.status(200).json({
     status: 'ok',
+    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
-    service: 'Nova-Team API'
+    service: 'Nova Agile Operating System API',
+    database: dbState,
+    environment: process.env.NODE_ENV || 'development'
   });
+});
+
+app.head('/api/health', (req, res) => {
+  res.status(200).end();
 });
 
 // Mount API routes

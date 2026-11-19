@@ -67,6 +67,7 @@ Nova/
 ### Infrastructure Resilience
 - **Database Failover Architecture:** Standard connection to MongoDB Atlas with an automated fallback to an embedded in-memory MongoDB engine (`mongodb-memory-server`) for zero-configuration local evaluation.
 - **Drive Cache Optimization:** Engine binaries are isolated to designated persistent storage paths, mitigating environment constraint issues.
+- **Automated Keep-Alive Monitor:** Built-in self-pinging background monitor targeting `/api/health` every 14 minutes to prevent idle sleep on free-tier cloud instances (e.g., Render).
 
 ---
 
