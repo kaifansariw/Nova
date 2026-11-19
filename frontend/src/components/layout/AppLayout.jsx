@@ -64,9 +64,9 @@ export const AppLayout = () => {
         </NavLink>
 
         <NavLink
-          to={currentProject ? `/projects/${currentProject._id}/board` : '/projects'}
-          className={({ isActive }) => `flex flex-col items-center gap-1 p-1 text-xs font-medium ${
-            isActive ? 'text-blue-500' : 'text-slate-400'
+          to={currentProject ? `/projects/${currentProject._id}/board` : '/board'}
+          className={() => `flex flex-col items-center gap-1 p-1 text-xs font-medium ${
+            location.pathname === '/board' || location.pathname.endsWith('/board') ? 'text-blue-500 font-semibold' : 'text-slate-400'
           }`}
         >
           <Kanban className="w-5 h-5" />
@@ -75,8 +75,8 @@ export const AppLayout = () => {
 
         <NavLink
           to={currentProject ? `/projects/${currentProject._id}/team` : '/team'}
-          className={({ isActive }) => `flex flex-col items-center gap-1 p-1 text-xs font-medium ${
-            isActive ? 'text-blue-500' : 'text-slate-400'
+          className={() => `flex flex-col items-center gap-1 p-1 text-xs font-medium ${
+            location.pathname === '/team' || location.pathname.endsWith('/team') ? 'text-blue-500 font-semibold' : 'text-slate-400'
           }`}
         >
           <Users className="w-5 h-5" />

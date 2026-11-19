@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FolderKanban, 
@@ -16,21 +16,41 @@ import { useProjectStore } from '../../store/projectStore';
 export const Sidebar = ({ isOpen, onClose, onOpenNewProject }) => {
   const { user, logout } = useAuthStore();
   const { currentProject } = useProjectStore();
+  const location = useLocation();
 
   const navItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/projects', label: 'Projects', icon: FolderKanban },
     { 
-      to: currentProject ? `/projects/${currentProject._id}/board` : '/projects', 
+      to: '/dashboard', 
+      label: 'Dashboard', 
+      icon: LayoutDashboard,
+      isActive: location.pathname === '/dashboard'
+    },
+    { 
+      to: '/projects', 
+      label: 'Projects', 
+      icon: FolderKanban,
+      isActive: (location.pathname === '/projects' || location.pathname.startsWith('/projects/')) && 
+                !location.pathname.endsWith('/board') && 
+                !location.pathname.endsWith('/team')
+    },
+    { 
+      to: currentProject ? `/projects/${currentProject._id}/board` : '/board', 
       label: 'Task Board', 
-      icon: Kanban 
+      icon: Kanban,
+      isActive: location.pathname === '/board' || location.pathname.endsWith('/board')
     },
     { 
       to: currentProject ? `/projects/${currentProject._id}/team` : '/team', 
       label: 'Team', 
-      icon: Users 
+      icon: Users,
+      isActive: location.pathname === '/team' || location.pathname.endsWith('/team')
     },
-    { to: '/settings', label: 'Settings', icon: Settings },
+    { 
+      to: '/settings', 
+      label: 'Settings', 
+      icon: Settings,
+      isActive: location.pathname === '/settings'
+    },
   ];
 
   return (
@@ -89,9 +109,9 @@ export const Sidebar = ({ isOpen, onClose, onOpenNewProject }) => {
                 key={item.label}
                 to={item.to}
                 onClick={onClose}
-                className={({ isActive }) => `
+                className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150
-                  ${isActive 
+                  ${item.isActive 
                     ? 'bg-blue-50 text-blue-600 border border-blue-200 dark:bg-blue-600/15 dark:text-blue-400 dark:border-blue-500/20' 
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60'
                   }
