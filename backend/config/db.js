@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const mongoDownloadDir = path.resolve(__dirname, '../.mongo-bin');
 
 let mongodInstance = null;
 
@@ -12,6 +18,9 @@ export const connectDB = async () => {
       mongodInstance = await MongoMemoryServer.create({
         instance: {
           dbName: 'nova_team_db'
+        },
+        binary: {
+          downloadDir: mongoDownloadDir
         }
       });
       uri = mongodInstance.getUri();
@@ -20,6 +29,7 @@ export const connectDB = async () => {
 
     await mongoose.connect(uri, {
       autoIndex: true,
+      serverSelectionTimeoutMS: 5000,
     });
 
     console.log(`MongoDB Connected successfully: ${mongoose.connection.host || 'MemoryServer'}`);
@@ -32,6 +42,9 @@ export const connectDB = async () => {
         mongodInstance = await MongoMemoryServer.create({
           instance: {
             dbName: 'nova_team_db'
+          },
+          binary: {
+            downloadDir: mongoDownloadDir
           }
         });
         const uri = mongodInstance.getUri();

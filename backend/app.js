@@ -47,7 +47,8 @@ app.use('/api/team', teamRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // In production, serve frontend client build
-const clientDistPath = path.join(__dirname, '..', 'client', 'dist');
+const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+const clientDistPath = fs.existsSync(frontendDistPath) ? frontendDistPath : path.join(__dirname, '..', 'client', 'dist');
 if (fs.existsSync(clientDistPath)) {
   app.use(express.static(clientDistPath));
 
