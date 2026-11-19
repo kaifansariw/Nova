@@ -3,4 +3,5 @@ node_modules
 .env.local
 uploads
 dist
+.mongo-bin
 .DS_Store
